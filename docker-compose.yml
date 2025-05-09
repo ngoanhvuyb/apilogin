@@ -7,17 +7,16 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - mysql_db
+      - mysql_db  
     environment:
       DATABASE_URL: mysql+mysqlconnector://root:root@mysql_db:3306/test_api_login
     volumes:
       - .:/app
+    command: ["./wait-for-it.sh", "mysql_db:3306", "--", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]  # Sử dụng mysql_db thay vì db
 
-    command: ["./wait-for-it.sh", "db:3306", "--", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-
-  db:
+  mysql_db:
     image: mysql:8
-    container_name: mysql_db
+    container_name: mysql_db  
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
