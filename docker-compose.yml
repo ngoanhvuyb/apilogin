@@ -7,9 +7,9 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - mysql_db
     environment:
-      DATABASE_URL: mysql+mysqlconnector://root:root@db:3306/test_api_login
+      DATABASE_URL: mysql+mysqlconnector://root:root@mysql_db:3306/test_api_login
     volumes:
       - .:/app
 
@@ -17,7 +17,7 @@ services:
 
   db:
     image: mysql:8
-    container_name: db
+    container_name: mysql_db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
